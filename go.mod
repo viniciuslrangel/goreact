@@ -1,4 +1,4 @@
-module Goreact
+module github.com/viniciuslrangel/goreact
 
 go 1.19
 

@@ -1,8 +1,8 @@
 package main
 
 import (
-	. "Goreact"
 	"fmt"
+	. "github.com/viniciuslrangel/goreact"
 )
 
 type ButtonProps struct {

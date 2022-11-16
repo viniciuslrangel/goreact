@@ -1,6 +1,5 @@
 package goreact
 
-import "C"
 import (
 	"fmt"
 	"strings"
