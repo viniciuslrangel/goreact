@@ -34,6 +34,6 @@ func (f *fccComponent) getName() string {
 	return f.name
 }
 
-func (f *fccComponent) build(props any) Node {
-	return f.target(props.(ChildrenProps).Children...)
+func (f *fccComponent) build(data buildData) Node {
+	return f.target(data.el.Props.(ChildrenProps).Children...)
 }

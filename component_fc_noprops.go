@@ -31,6 +31,6 @@ func (f *fcComponentNoProps) getName() string {
 	return f.name
 }
 
-func (f *fcComponentNoProps) build(props any) Node {
+func (f *fcComponentNoProps) build(_ buildData) Node {
 	return f.target()
 }

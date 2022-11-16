@@ -32,6 +32,6 @@ func (f *fcComponent[T]) getName() string {
 	return f.name
 }
 
-func (f *fcComponent[T]) build(props any) Node {
-	return f.target(props.(T))
+func (f *fcComponent[T]) build(data buildData) Node {
+	return f.target(data.el.Props.(T))
 }

@@ -50,12 +50,17 @@ func genCompareFunc(t reflect2.Type) (output func(a, b any) bool) {
 			fieldList = append(fieldList, field)
 		}
 		return func(a, b any) bool {
+			pa := reflect2.PtrOf(a)
+			pb := reflect2.PtrOf(b)
 			for _, field := range fieldList {
 				// TODO Nested struct?
 				/*if !compareProps(a.FieldByName(field.Name).Interface(), b.FieldByName(field.Name).Interface()) {
 					return false
 				}*/
-				if field.Get(a) != field.Get(b) {
+				fieldType := field.Type()
+				fa := fieldType.PackEFace(field.UnsafeGet(pa))
+				fb := fieldType.PackEFace(field.UnsafeGet(pb))
+				if fa != fb {
 					return false
 				}
 			}
@@ -80,6 +85,7 @@ func compareProps(x any, y any) bool {
 	compare, ok := compareFuncCache[typ1]
 	if !ok {
 		compare = genCompareFunc(typ1)
+		compareFuncCache[typ1] = compare
 	}
 	return compare(x, y)
 }

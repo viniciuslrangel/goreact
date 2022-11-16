@@ -37,7 +37,9 @@ func DumpTree(root Node) string {
 		} else {
 			name = comp.getName()
 			data = el.Props
-			value := comp.build(el.Props)
+			var build buildData
+			build.el = el
+			value := comp.build(build)
 			if len(children) == 0 {
 				children = append(children, value)
 			}

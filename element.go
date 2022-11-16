@@ -3,7 +3,8 @@ package goreact
 type Node any
 
 type NodeData struct {
-	Key key
+	IsDirty bool
+	Key     key
 
 	NativeTyp string
 	Typ       Component

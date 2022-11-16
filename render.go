@@ -49,10 +49,13 @@ func (e *Engine) DiffChildren(oldChildren []Node, node *NodeData) {
 		}
 	}
 	for i, child := range node.Children {
+		childData := child.(*NodeData)
 		if i < oldChildrenCount {
-			e.Diff(child.(*NodeData), oldChildren[i].(*NodeData))
+			oldChildData := oldChildren[i].(*NodeData)
+			e.Diff(childData, oldChildData)
+			*childData = *oldChildData
 		} else {
-			newChild := child.(*NodeData)
+			newChild := childData
 			newChild.Parent = node
 			if newChild.NativeTyp != "" {
 				e.render.InsertNode(newChild)
@@ -67,39 +70,55 @@ func (e *Engine) UpdateElement(el *NodeData) {
 	if el.NativeTyp != "" { // Native element
 		e.render.UpdateElement(el)
 	} else {
-		result := el.Typ.build(el.Props).(*NodeData)
+		var data buildData
+		data.engine = e
+		data.el = el
+		result := el.Typ.build(data).(*NodeData)
+		result.IsDirty = false
 		el.Children = e.ParseFragment(result)
+		for _, child := range el.Children {
+			childData := child.(*NodeData)
+			childData.IsDirty = true
+		}
 	}
 	e.DiffChildren(oldChildren, el)
 }
 
-func (e *Engine) Diff(element *NodeData, target *NodeData) {
-	if !element.sameComp(target) {
-		parent := target.Parent
+func (e *Engine) Diff(NewNode *NodeData, currentNode *NodeData) {
+	shouldUpdate := false
+	isNew := false
+	if !NewNode.sameComp(currentNode) {
+		shouldUpdate = true
+		isNew = true
+	} else if NewNode.IsDirty || !NewNode.sameProps(currentNode.Props) {
+		shouldUpdate = true
+	}
 
-		if target.NativeTyp != "" {
-			e.render.RemoveNode(target)
+	if shouldUpdate {
+		parent := currentNode.Parent
+
+		if isNew {
+			if currentNode.NativeTyp != "" {
+				e.render.RemoveNode(currentNode)
+			}
+			currentNode.NativeTyp = NewNode.NativeTyp
+			currentNode.Typ = NewNode.Typ
+			currentNode.Parent = parent
+			currentNode.Children = nil
+		} else if currentNode.NativeElement != nil {
+
 		}
 
-		target.Key = element.Key
+		currentNode.Key = NewNode.Key
+		currentNode.Props = NewNode.Props
+		currentNode.State = NewNode.State
 
-		target.NativeTyp = element.NativeTyp
-		target.Typ = element.Typ
-		target.Props = element.Props
-
-		target.Parent = parent
-		target.Children = nil
-
-		target.NativeElement = nil
-		target.State = nil
-
-		if target.NativeTyp != "" {
-			e.render.InsertNode(target)
+		if isNew {
+			if currentNode.NativeTyp != "" {
+				e.render.InsertNode(currentNode)
+			}
 		}
-		e.UpdateElement(target)
-	} else if !element.sameProps(target.Props) {
-		target.Props = element.Props
-		e.UpdateElement(target)
+		e.UpdateElement(currentNode)
 	}
 }
 
