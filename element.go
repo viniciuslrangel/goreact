@@ -35,9 +35,9 @@ func (e *NodeData) sameComp(el *NodeData) bool {
 	return true
 }
 
-func (e *NodeData) sameProps(props any) bool {
+/*func (e *NodeData) sameProps(props any) bool {
 	return compareProps(e.Props, props)
-}
+}*/
 
 func NativeEl(typ string, props any) Node {
 	return &NodeData{

@@ -90,7 +90,7 @@ func (e *Engine) Diff(NewNode *NodeData, currentNode *NodeData) {
 	if !NewNode.sameComp(currentNode) {
 		shouldUpdate = true
 		isNew = true
-	} else if NewNode.IsDirty || !NewNode.sameProps(currentNode.Props) {
+	} else if NewNode.IsDirty /*|| !NewNode.sameProps(currentNode.Props)*/ {
 		shouldUpdate = true
 	}
 
