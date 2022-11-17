@@ -15,7 +15,7 @@ type fcComponent[T any] struct {
 	target func(props T) Node
 }
 
-func (f *fcComponent[T]) Keyed(key key, props T) Node {
+func (f *fcComponent[T]) Keyed(key Key, props T) Node {
 	el := f.New(props).(*NodeData)
 	el.Key = key
 	return el

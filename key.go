@@ -1,8 +1,13 @@
 package goreact
 
-var NoKey = key{Has: false}
+type Key struct {
+	Key uint64
+	Has bool
+}
+
+var NoKey = Key{Has: false}
 
 //goland:noinspection GoExportedFuncWithUnexportedType
-func Key(k uint64) key {
-	return key{Key: k, Has: true}
+func NewKey(k uint64) Key {
+	return Key{Key: k, Has: true}
 }

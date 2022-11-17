@@ -15,7 +15,7 @@ type fcComponentNoProps struct {
 	target func() Node
 }
 
-func (f *fcComponentNoProps) Keyed(key key) Node {
+func (f *fcComponentNoProps) Keyed(key Key) Node {
 	el := f.New().(*NodeData)
 	el.Key = key
 	return el

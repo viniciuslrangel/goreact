@@ -17,7 +17,7 @@ type fcsComponentNoProps[S any] struct {
 	target       func(state S, updateState func(S)) Node
 }
 
-func (f *fcsComponentNoProps[S]) Keyed(key key) Node {
+func (f *fcsComponentNoProps[S]) Keyed(key Key) Node {
 	el := f.New().(*NodeData)
 	el.Key = key
 	return el

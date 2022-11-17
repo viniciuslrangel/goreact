@@ -5,28 +5,19 @@ import (
 	"reflect"
 )
 
-type childrenProps interface {
+type IChildrenProps interface {
 	GetChildren() []Node
-}
-
-type keyProps interface {
-	GetKey() (uint64, bool)
 }
 
 type ChildrenProps struct {
 	Children []Node
 }
 
-type key struct {
-	Key uint64
-	Has bool
-}
-
 func (p ChildrenProps) GetChildren() []Node {
 	return p.Children
 }
 
-func (p key) GetKey() (uint64, bool) {
+func (p Key) GetKey() (uint64, bool) {
 	return p.Key, p.Has
 }
 

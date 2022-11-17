@@ -17,7 +17,7 @@ type fcsComponent[S, T any] struct {
 	target       func(props T, state S, updateState func(S)) Node
 }
 
-func (f *fcsComponent[S, T]) Keyed(key key, props T) Node {
+func (f *fcsComponent[S, T]) Keyed(key Key, props T) Node {
 	el := f.New(props).(*NodeData)
 	el.Key = key
 	return el

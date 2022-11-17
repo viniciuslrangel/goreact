@@ -1,10 +1,12 @@
 package goreact
 
-type Node any
+type Node interface {
+	_nodeData()
+}
 
 type NodeData struct {
 	IsDirty bool
-	Key     key
+	Key     Key
 
 	NativeTyp string
 	Typ       Component
@@ -17,6 +19,8 @@ type NodeData struct {
 
 	State any
 }
+
+func (e *NodeData) _nodeData() {}
 
 func (e *NodeData) sameComp(el *NodeData) bool {
 	if e.Key != el.Key {

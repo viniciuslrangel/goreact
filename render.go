@@ -50,7 +50,7 @@ func (e *Engine) DiffChildren(oldChildren []Node, node *NodeData) {
 	}
 	for i, child := range node.Children {
 		childData := child.(*NodeData)
-		if i < oldChildrenCount {
+		if i < oldChildrenCount { // Update existing child
 			oldChildData := oldChildren[i].(*NodeData)
 			e.Diff(childData, oldChildData)
 			*childData = *oldChildData
@@ -95,23 +95,19 @@ func (e *Engine) Diff(NewNode *NodeData, currentNode *NodeData) {
 	}
 
 	if shouldUpdate {
-		parent := currentNode.Parent
-
 		if isNew {
 			if currentNode.NativeTyp != "" {
 				e.render.RemoveNode(currentNode)
 			}
 			currentNode.NativeTyp = NewNode.NativeTyp
 			currentNode.Typ = NewNode.Typ
-			currentNode.Parent = parent
-			currentNode.Children = nil
-		} else if currentNode.NativeElement != nil {
-
 		}
 
 		currentNode.Key = NewNode.Key
 		currentNode.Props = NewNode.Props
-		currentNode.State = NewNode.State
+		if isNew || NewNode.State != nil {
+			currentNode.State = NewNode.State
+		}
 
 		if isNew {
 			if currentNode.NativeTyp != "" {

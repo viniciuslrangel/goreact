@@ -36,7 +36,7 @@ var Column = FCC("Column", func(children ...Node) Node {
 var HelloWorld = FC("HelloWorld", func() Node {
 	return Column.New(
 		Text.Keyed(
-			Key(1),
+			NewKey(1),
 			TextProps{
 				Label: "Hello World",
 			},

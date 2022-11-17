@@ -15,8 +15,8 @@ type fcscComponent struct {
 	target func(child Node) Node
 }
 
-func (f *fcscComponent) Keyed(key key, child Node) Node {
-	el := f.New(child).(NodeData)
+func (f *fcscComponent) Keyed(key Key, child Node) Node {
+	el := f.New(child).(*NodeData)
 	el.Key = key
 	return el
 }

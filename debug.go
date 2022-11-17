@@ -22,7 +22,7 @@ func DumpTree(root Node) string {
 			key = fmt.Sprintf(" key=%v", el.Key.Key)
 		}
 
-		if cp, ok := el.Props.(childrenProps); ok {
+		if cp, ok := el.Props.(IChildrenProps); ok {
 			children = cp.GetChildren()
 		}
 		comp := el.Typ
